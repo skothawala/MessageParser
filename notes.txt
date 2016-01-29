@@ -1,0 +1,7 @@
+Twitter usernames (and hence mentions) can only contain letters, numbers and '_' --when trying to change twitter name
+
+
+When attempting to tweet #http://google.com, the hastag isn't rendered as a "topic"/"hashtag"--when trying to tweet and then using twitter's api to get a tweets entities. (yes I cheated).
+
+
+
