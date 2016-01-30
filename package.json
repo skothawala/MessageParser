@@ -4,7 +4,7 @@
   "description": "Processes tweets and looks for various entities",
   "main": "server.js",
   "scripts": {
-    "test": "tests.js",
+    "test": "mocha ./test/TextUtilsTests.js",
     "start": "node server.js"
   },
   "author": "Saad Kothawala",
