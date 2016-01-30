@@ -22,4 +22,5 @@ var server = http.createServer(requestHandler);
 //console.log('Listening on ' + port);
 
 
-console.log(TextUtils.isUrl('http://google.com'));
+
+console.log(TextUtils.isMention('@saad'));

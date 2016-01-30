@@ -19,10 +19,10 @@ before(function(){
 
 describe('TextUtils', function() {
   describe('#getIndividualComponents', function () {
-    it('Should split the components into individual strings based on spaces', function () {
+	it('Should split the components into individual strings based on spaces', function () {
 
-    	var correctSplits = [
-    		[ 'Hello' ],
+		var correctSplits = [
+			[ 'Hello' ],
 			[ '@franky', 'goes', 'to', '#hollywood.', 'See', 'http://cnn.com.' ],
 			[ '.@saad', '@cnn', 'http://cnn.com', 'is', 'down', '#CNNDown' ],
 			[ 'Meeting', 'a', 'unicorn:', 'TG', 'gets', 'an', 'exclusive', 'meeting', 'with', 'the', 'Nissan', 'GT-R', 'Skyline', 'R33', 'LM', 'http://www.tpgr.me/XJ05d' ],
@@ -30,28 +30,28 @@ describe('TextUtils', function() {
 			[ 'Pain', 'and', 'gain', 'for', 'Chicago', 'teachers', 'in', 'possible', '4-year', 'deal.', 'Details:', 'http://goo.gl/VxY9yx' ],
 			[ '.@NatalieMcGarry', 'You', 'don\'t', 'appear', 'to', 'understand', 'how', 'Twitter', 'or', 'defamation', 'works.', 'I\'m', 'going', 'to', 'help', 'you', 'out', 'with', 'the', 'latter.' ],
 			[ "#@saad", "@#saad", ".@saad", "@http://google.com", "#http://google.com"]
-    	];
+		];
  		
-    	for (var i = 0; i < tweets.length; i++) {
-    		var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
-    		assert.equal (indivComponents.length, correctSplits[i].length, 'Tweets[' + i + '] length should be equal');
-    		for (var j = 0; j < indivComponents.length; j++) {
-	      		assert.equal(indivComponents[j], correctSplits[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is equal');
-    		};
-    	};
+		for (var i = 0; i < tweets.length; i++) {
+			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
+			assert.equal (indivComponents.length, correctSplits[i].length, 'Tweets[' + i + '] length should be equal');
+			for (var j = 0; j < indivComponents.length; j++) {
+		  		assert.equal(indivComponents[j], correctSplits[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is equal');
+			};
+		};
 
 
-    });
+	});
   });
 });
 
 describe('TextUtils', function() {
   describe('#isUrl', function () {
-    it('Tests whether a string is a url or not', function () {
+	it('Tests whether a string is a url or not', function () {
 
-    	var correctAnswers = [
-    		
-    		[ false ],
+		var correctAnswers = [
+
+			[ false ],
 			[ false, false, false, false, false, true ],
 			[ false, false, true, false, false, false ], 
 			[ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ], 
@@ -60,19 +60,78 @@ describe('TextUtils', function() {
 			[ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ],
 			[ false, false, false, false, false ] 
 
-    	];
+		];
  		
  		for (var i = 0; i < tweets.length; i++) {
-    		var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
-    		for (var j = 0; j < indivComponents.length; j++) {
-	      		assert.equal(TextUtils.isUrl(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a url');
-    		};
-    	};
+			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
+			for (var j = 0; j < indivComponents.length; j++) {
+		  		assert.equal(TextUtils.isUrl(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a url');
+			};
+		};
 
-    	
-    });
+
+	});
   });
 });
 
 
+describe('TextUtils', function() {
+  describe('#isTopic', function () {
+	it('Tests whether a string is a topic or not', function () {
+
+		var correctAnswers = [
+
+			[ false ],
+			[ false, false, false, true, false, false ],
+			[ false, false, false, false, false, true ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, false, false, false, false ]
+
+		];
+ 		
+ 		for (var i = 0; i < tweets.length; i++) {
+			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
+			for (var j = 0; j < indivComponents.length; j++) {
+		  		assert.equal(TextUtils.isTopic(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a topc');
+			};
+		};
+		
+		
+	});
+  });
+});
+
+
+describe('TextUtils', function() {
+  describe('#isMention', function () {
+	it('Tests whether a string is a url or not', function () {
+
+		var correctAnswers = [
+
+			[ false ],
+			[ true, false, false, false, false, false ],
+			[ true, true, false, false, false, false ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ],
+			[ false, true, true, false, false ]
+
+
+		];
+ 		
+ 		for (var i = 0; i < tweets.length; i++) {
+			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
+			for (var j = 0; j < indivComponents.length; j++) {
+		  		assert.equal(TextUtils.isMention(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a mention');
+			};
+		};
+		
+		
+	});
+  });
+});
 
