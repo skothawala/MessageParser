@@ -1,0 +1,15 @@
+{
+  "name": "messageParser",
+  "version": "0.0.1",
+  "description": "Processes tweets and looks for various entities",
+  "main": "server.js",
+  "scripts": {
+    "test": "tests.js",
+    "start": "node server.js"
+  },
+  "author": "Saad Kothawala",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "repository": "https://github.com/skothawala/MessageParser.git"
+}
