@@ -16,31 +16,50 @@ handleError = function (err, res){
 }
 
 //handles successfully posted
-handleSuccess = function (data, mostCommon, res){
+handleSuccess = function (allInput, processedTweets, res){
 	res.writeHead(200, {'content-type': 'text/html'});
 	res.write(htmlHead);
-	res.write('<p>Input: </p><pre>' + data + '</pre>');
-	res.write('<table class="table table-hover"><thead><tr><th>Tweet</th><th>Processed</th></tr></thead><tbody>')
+	res.write('<p>Input: </p><pre>' + allInput + '</pre>');
+	res.write('<table class="table table-hover"><thead><tr><th>Tweet</th><th>Mentions</th><th>Topics</th><th>Links</th><th>Full Return</th></tr></thead><tbody>')
 
-	//because I'm not using a min heap or a sorted structure, I need to sort the most common
-	var sorted = [];
-	for(word in mostCommon)
-		sorted.push([word, mostCommon[word]]);
-	sorted.sort(function(a, b) {return b[1] - a[1]})
-
+	var tweets = allInput.split("\r\n");
 	
-	for (var i = 0; i < sorted.length; i++) {
+	for (var i = 0; i < tweets.length; i++) {
+		var mentions = "";
+		var topics = "";
+		var links = "";
+		for (var j = 0; j < processedTweets[i].length; j++) {
+			switch(processedTweets[i][j].type){
+				case 'mention':
+					mentions += processedTweets[i][j].text + "<br>";break;
+				case 'topic':
+					topics += processedTweets[i][j].text + "<br>";break;
+				case 'url':
+					links += processedTweets[i][j].text + "<br>";break;
+				default:
+					break;
+			}
+		};
 		res.write('<tr>');
 			res.write('<td>');
-			res.write(String(sorted[i][0]));//res.write needs to be string
+			res.write(tweets[i]);
 			res.write('</td>');
 			res.write('<td>');
-			res.write(String([sorted[i][1]]));//res.write needs to be string
+			res.write(mentions);
+			res.write('</td>');
+			res.write('<td>');
+			res.write(topics);
+			res.write('</td>');
+			res.write('<td>');
+			res.write(links);
+			res.write('</td>');
+			res.write('<td>');
+			res.write(JSON.stringify(processedTweets[i]));//res.write needs to be string
 			res.write('</td>');
 		res.write('</tr>');
 	};
 	res.write('</tbody></table>');
-	res.write(htmlForm);
+	res.write(innerHtml);
 	res.end(htmlFoot);
 
 }
@@ -54,6 +73,16 @@ requestHandler = function (req, res) {
 		form.parse(req, function(err, fields, files) {
 			if(fields.length == 0 || fields.tweets.length == 0)
 				return handleError('Nothing inputed', res);
+
+			var tweets = fields.tweets.split("\r\n");
+
+			var processedTweets = [];
+
+			for (var i = 0; i < tweets.length; i++) {
+				processedTweets.push(TextUtils.processTweet(tweets[i]));
+			};
+
+			return handleSuccess(fields.tweets, processedTweets, res);
 		});
 
 	}else{
