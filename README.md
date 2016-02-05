@@ -17,6 +17,12 @@ Clone the repo, and hit node server.
 If you have mocha instaled, just type go to the directory and type "mocha".
 
 - - - -
+#### How to Report Issues
+
+When reporting an issue with parsing messages, please include the Full Return and ideally the "ideal" Full Return as well.
+
+Also, with regard to the way I render HTML, this wasn't supposed to be an HTML app, more of an API. The HTML is there to provide ease of testing.
+- - - -
 
 
 
