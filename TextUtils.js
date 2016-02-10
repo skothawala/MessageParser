@@ -46,7 +46,7 @@ var TextUtils = {
 		return text.length > 1 && text.charAt(0) == '#'  
 			&& ( 
 				((text.charCodeAt(1)  >= 65) && (text.charCodeAt(1)  <= 90)) || 
-				((text.charCodeAt(1)  >= 97) && (text.charCodeA(1)  <= 122)) 
+				((text.charCodeAt(1)  >= 97) && (text.charCodeAt(1)  <= 122)) 
 			)
 			&& !TextUtils.isUrl(text.substr(1, text.length))
 			&& !TextUtils.isMention(text.substr(1, text.length));
