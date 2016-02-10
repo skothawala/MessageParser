@@ -61,7 +61,7 @@ var TextUtils = {
 			text = text.substr(1, text.length);
 
 
-		return text.length > 1 && text.charAt(0) == '@' && text.match(/([A-Za-z0-9_-]+)/gi)[0] == text.substr(1, text.length);				
+		return text.length > 1 && text.length < 21 && text.charAt(0) == '@' && text.match(/([A-Za-z0-9_-]+)/gi)[0] == text.substr(1, text.length);				
 	},
 
 	/**
