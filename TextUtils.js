@@ -43,9 +43,13 @@ var TextUtils = {
 	**/
 	isTopic: function(text){
 
-		return text.length > 1 && text.charAt(0) == '#' 
-				&& !TextUtils.isUrl(text.substr(1, text.length))
-				&& !TextUtils.isMention(text.substr(1, text.length));
+		return text.length > 1 && text.charAt(0) == '#'  
+			&& ( 
+				((text.charCodeAt(1)  >= 65) && (text.charCodeAt(1)  <= 90)) || 
+				((text.charCodeAt(1)  >= 97) && (text.charCodeA(1)  <= 122)) 
+			)
+			&& !TextUtils.isUrl(text.substr(1, text.length))
+			&& !TextUtils.isMention(text.substr(1, text.length));
 	},
 	/**
 	 * Checks if the input is a mention. It does this by checking if the text after the @ is a valid
