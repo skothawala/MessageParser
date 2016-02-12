@@ -154,7 +154,7 @@ describe('TextUtils', function() {
 			  { text: 'http://cnn.com.', type: 'url' } ],
 
 
-			[ { text: '.@saad', type: 'mention' },
+			[ { text: '.@saad!', type: 'mention' },
 			  { text: '@cnn', type: 'mention' },
 			  { text: 'http://cnn.com', type: 'url' },
 			  { text: 'is', type: 'text' },
@@ -232,7 +232,7 @@ describe('TextUtils', function() {
 
 
 			[ { text: '#@saad', type: 'text' },
-			  { text: '@#saad', type: 'text' },
+			  { text: '@#saad', type: 'topic' },
 			  { text: '.@saad', type: 'mention' },
 			  { text: '@http://google.com', type: 'text' },
 			  { text: '#http://google.com', type: 'text' } ]				
