@@ -104,10 +104,3 @@ console.log('Listening on ' + port);
 
 
 
- console.log(TextUtils.isTopic('222'));
-
-
-
-
-
-

@@ -5,8 +5,8 @@ before(function(){
 	tweets = 
 		[
 			"Hello", 
-			"@franky goes to #hollywood. See http://cnn.com.", 
-			".@saad @cnn http://cnn.com is down #CNNDown",
+			"?@franky goes to #hollywood. See http://cnn.com.", 
+			".@saad! @cnn http://cnn.com is down #CNNDown",
 			"Meeting a unicorn: TG gets an exclusive meeting with the Nissan GT-R Skyline R33 LM http://www.tpgr.me/XJ05d",//nissan official
 			"Deceased Bears fan takes one final shot at Jay Cutler in obituary http://wapo.st/1PoWKsz",//washington post
 			"Pain and gain for Chicago teachers in possible 4-year deal. Details: http://goo.gl/VxY9yx",//chicago trib
@@ -23,8 +23,8 @@ describe('TextUtils', function() {
 
 		var correctSplits = [
 			[ 'Hello' ],
-			[ '@franky', 'goes', 'to', '#hollywood.', 'See', 'http://cnn.com.' ],
-			[ '.@saad', '@cnn', 'http://cnn.com', 'is', 'down', '#CNNDown' ],
+			[ '?@franky', 'goes', 'to', '#hollywood.', 'See', 'http://cnn.com.' ],
+			[ '.@saad!', '@cnn', 'http://cnn.com', 'is', 'down', '#CNNDown' ],
 			[ 'Meeting', 'a', 'unicorn:', 'TG', 'gets', 'an', 'exclusive', 'meeting', 'with', 'the', 'Nissan', 'GT-R', 'Skyline', 'R33', 'LM', 'http://www.tpgr.me/XJ05d' ],
 			[ 'Deceased', 'Bears', 'fan', 'takes', 'one', 'final', 'shot', 'at', 'Jay', 'Cutler', 'in', 'obituary', 'http://wapo.st/1PoWKsz' ],
 			[ 'Pain', 'and', 'gain', 'for', 'Chicago', 'teachers', 'in', 'possible', '4-year', 'deal.', 'Details:', 'http://goo.gl/VxY9yx' ],
@@ -65,7 +65,6 @@ describe('TextUtils', function() {
  		for (var i = 0; i < tweets.length; i++) {
 			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
 			for (var j = 0; j < indivComponents.length; j++) {
-				console.log(TextUtils.isTopic(indivComponents[j]));
 		  		assert.equal(TextUtils.isUrl(indivComponents[j])[0], correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a url');
 			};
 		};
@@ -108,7 +107,7 @@ describe('TextUtils', function() {
 
 describe('TextUtils', function() {
   describe('#isMention', function () {
-	it('Tests whether a string is a url or not', function () {
+	it('Tests whether a string is a mention or not', function () {
 
 		var correctAnswers = [
 
@@ -127,7 +126,8 @@ describe('TextUtils', function() {
  		for (var i = 0; i < tweets.length; i++) {
 			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
 			for (var j = 0; j < indivComponents.length; j++) {
-		  		assert.equal(TextUtils.isMention(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[j] + '] element is a mention');
+				console.log(TextUtils.isMention(indivComponents[j]));
+		  		assert.equal(TextUtils.isMention(indivComponents[j])[0], correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[j] + '] element is a mention');
 			};
 		};
 		
@@ -146,7 +146,7 @@ describe('TextUtils', function() {
 			[ { text: 'Hello', type: 'text' } ],
 
 
-			[ { text: '@franky', type: 'mention' },
+			[ { text: '?@franky', type: 'mention' },
 			  { text: 'goes', type: 'text' },
 			  { text: 'to', type: 'text' },
 			  { text: '#hollywood.', type: 'topic' },

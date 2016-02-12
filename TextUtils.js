@@ -59,7 +59,7 @@ var TextUtils = {
 		var lastMatch = regMatch[regMatch.length - 1];
 		if(
 			lastMatch.length > 1 
-			&& !TextUtils.isMention(lastMatch)
+			&& !TextUtils.isMention(lastMatch)[0]
 		)
 			return [true, lastMatch];
 		else
@@ -85,21 +85,44 @@ var TextUtils = {
 	 *	Therefore, I am using isUrl with .substr(1, length); e.g. excluding the first character
 	 * 
 	 * @param text -> the mention?
-	 * @return -> boolean
+	 * @return -> [boolean, mention]
+	 *	return[0] is if the input contains a mention
+	 *	return[1] contains the actual valid mention (e.g. @saad! = @saad)
+	 *		default: null
 	 * Example:
 	 *	isMention('@saad') -> true;
 	**/
 	isMention: function(text){
-		if(text.length > 1 && text.charAt(0) == '.' && text.charAt(1) == '@')
+
+		//valid in front: \-\=\[\;\'\/\.\]\[\^\(\)\\\|\]\{\}\[\"\'\:\;\?\/\>\.\<\,\~\`
+
+
+		if(text.length > 1 && text[0].match(/([\-\=\[\;\'\/\.\]\[\^\(\)\\\|\]\{\}\[\"\'\:\;\?\/\>\.\<\,\~\`])/gi))
 			text = text.substr(1, text.length);
 
+		var validMention = text.length > 1 && text.charAt(0) == '@' && !TextUtils.isUrl(text.substr(1, text.length))[0];
+						
+		if(!validMention)
+			return [false, null];
+	
+		var regMatch = text.match(/.?@([a-zA-Z0-9-_]*)/gi);
 
-		return text.length > 1 && 
-				text.length < 21 && text.charAt(0) == '@' && !TextUtils.isUrl(text.substr(1, text.length))[0]
+		var lastMatch = regMatch[regMatch.length - 1];
+		if(
+			lastMatch.length > 1 &&
+			lastMatch.split("@").length < 3
+		)
+			return [true, lastMatch];
+		else
+			return [false, lastMatch.split("@")];		
+
+		/*return [text.length > 1 && 
+				text.length < 21 && text.charAt(0) == '@' && !(TextUtils.isUrl(text.substr(1, text.length))[0])
 				&& ( 
+					((text[1] >= 0) && (text[1] <= 9)) || 
 					((text.charCodeAt(1)  >= 65) && (text.charCodeAt(1)  <= 90)) || 
 					((text.charCodeAt(1)  >= 97) && (text.charCodeAt(1)  <= 122)) 
-				);
+				), text];
 				/*&& text.match(/([A-Za-z0-9_-]+)/gi)[0] == text.substr(1, text.length)*/				
 	},
 
