@@ -37,23 +37,49 @@ var TextUtils = {
 	 * Checks if the input is a topic/hashtag
 	 * 
 	 * @param text -> the topic?
-	 * @return -> boolean
+	 * @return -> [boolean, topic]
+	 *	return[0] is if the input contains a topic
+	 *	return[1] contains the actual valid topic (#####qwr23_32423 is a topic as: #qwr23_32423)
+	 *		default: null
 	 * Example:
 	 *	isTopic('#google') -> true;
 	**/
 	isTopic: function(text){
 
-		return text.length > 1 && text.charAt(0) == '#'  
+		var validTopic = text.length > 1 && text.indexOf('#') > -1 && !TextUtils.isUrl(text.substr(1, text.length));
+						
+		if(!validTopic)
+			return [false, null];
+
+		var regMatch = text.match(/.?#([a-zA-Z0-9-_]*)/gi);
+
+		var lastMatch = regMatch[regMatch.length - 1];
+		if(
+			lastMatch.length > 1 
+			&& !TextUtils.isMention(lastMatch)
+		)
+			return [true, lastMatch];
+		else
+			return [false, null];
+
+		
+
+
+		/*return text.length > 1 && text.charAt(0) == '#'  
 			&& ( 
 				((text.charCodeAt(1)  >= 65) && (text.charCodeAt(1)  <= 90)) || 
 				((text.charCodeAt(1)  >= 97) && (text.charCodeAt(1)  <= 122)) 
 			)
 			&& !TextUtils.isUrl(text.substr(1, text.length))
-			&& !TextUtils.isMention(text.substr(1, text.length));
+			&& !TextUtils.isMention(text.substr(1, text.length));*/
 	},
 	/**
 	 * Checks if the input is a mention. It does this by checking if the text after the @ is a valid
 	 * username (Twitter usernames (and hence mentions) can only contain letters, numbers and '_')
+	 * 
+	 * Also, I'm excluding punctuation from here. Also, urls are not cosndiered mentions.
+	 *	However, isUrl automatically returns false if the first character is a # or @. 
+	 *	Therefore, I am using isUrl with .substr(1, length); e.g. excluding the first character
 	 * 
 	 * @param text -> the mention?
 	 * @return -> boolean
@@ -65,7 +91,13 @@ var TextUtils = {
 			text = text.substr(1, text.length);
 
 
-		return text.length > 1 && text.length < 21 && text.charAt(0) == '@' && text.match(/([A-Za-z0-9_-]+)/gi)[0] == text.substr(1, text.length);				
+		return text.length > 1 && 
+				text.length < 21 && text.charAt(0) == '@' && !TextUtils.isUrl(text.substr(1, text.length))
+				&& ( 
+					((text.charCodeAt(1)  >= 65) && (text.charCodeAt(1)  <= 90)) || 
+					((text.charCodeAt(1)  >= 97) && (text.charCodeAt(1)  <= 122)) 
+				);
+				/*&& text.match(/([A-Za-z0-9_-]+)/gi)[0] == text.substr(1, text.length)*/				
 	},
 
 	/**

@@ -97,6 +97,17 @@ requestHandler = function (req, res) {
 
 var port = process.env.PORT || 8080;//for heroku (in future)
 var server = http.createServer(requestHandler);
-server.listen(port);
+//server.listen(port);
 
 console.log('Listening on ' + port);
+
+
+
+
+ console.log(TextUtils.isTopic('222'));
+
+
+
+
+
+

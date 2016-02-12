@@ -88,14 +88,15 @@ describe('TextUtils', function() {
 			[ false, false, false, false, false, false, false, false, false, false, false, false, false ],
 			[ false, false, false, false, false, false, false, false, false, false, false, false ],
 			[ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false ],
-			[ false, false, false, false, false ]
+			[ false, true, false, false, false ]
 
 		];
  		
  		for (var i = 0; i < tweets.length; i++) {
 			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
 			for (var j = 0; j < indivComponents.length; j++) {
-		  		assert.equal(TextUtils.isTopic(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a topc');
+				console.log(TextUtils.isTopic(indivComponents[j]));
+		  		assert.equal(TextUtils.isTopic(indivComponents[j])[0], correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[j] + '] element is a topc');
 			};
 		};
 		
