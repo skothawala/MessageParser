@@ -147,11 +147,11 @@ var TextUtils = {
 
 		var components = TextUtils.getIndividualComponents(tweet);
 		for (var i = 0; i < components.length; i++) {
-			if(TextUtils.isMention(components[i]))
+			if(TextUtils.isMention(components[i])[0])
 				toReturn.push({text: components[i], type: 'mention'});
-			else if(TextUtils.isTopic(components[i]))
+			else if(TextUtils.isTopic(components[i])[0])
 				toReturn.push({text: components[i], type: 'topic'});
-			else if(TextUtils.isUrl(components[i]))
+			else if(TextUtils.isUrl(components[i])[0])
 				toReturn.push({text: components[i], type: 'url'});
 			else
 				toReturn.push({text: components[i], type: 'text'});
