@@ -126,7 +126,6 @@ describe('TextUtils', function() {
  		for (var i = 0; i < tweets.length; i++) {
 			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
 			for (var j = 0; j < indivComponents.length; j++) {
-				console.log(TextUtils.isMention(indivComponents[j]));
 		  		assert.equal(TextUtils.isMention(indivComponents[j])[0], correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[j] + '] element is a mention');
 			};
 		};
@@ -146,94 +145,34 @@ describe('TextUtils', function() {
 			[ { text: 'Hello', type: 'text' } ],
 
 
-			[ { text: '?@franky', type: 'mention' },
-			  { text: 'goes', type: 'text' },
-			  { text: 'to', type: 'text' },
-			  { text: '#hollywood.', type: 'topic' },
-			  { text: 'See', type: 'text' },
-			  { text: 'http://cnn.com.', type: 'url' } ],
+			[ 
+			 {"text":"?@franky","type":"mention","entity":"@franky"},
+			 {"text":"goes","type":"text"},
+			 {"text":"to","type":"text"},
+			 {"text":"#hollywood.","type":"topic","entity":"#hollywood"},
+			 {"text":"See","type":"text"},
+			 {"text":"http://cnn.com.","type":"url","entity":"http://cnn.com."}
+			],
 
 
-			[ { text: '.@saad!', type: 'mention' },
-			  { text: '@cnn', type: 'mention' },
-			  { text: 'http://cnn.com', type: 'url' },
-			  { text: 'is', type: 'text' },
-			  { text: 'down', type: 'text' },
-			  { text: '#CNNDown', type: 'topic' } ],
+			[{"text":".@saad!","type":"mention","entity":"@saad"},{"text":"@cnn","type":"mention","entity":"@cnn"},{"text":"http://cnn.com","type":"url","entity":"http://cnn.com"},{"text":"is","type":"text"},{"text":"down","type":"text"},{"text":"#CNNDown","type":"topic","entity":"#CNNDown"}],
 
 
-			[ { text: 'Meeting', type: 'text' },
-			  { text: 'a', type: 'text' },
-			  { text: 'unicorn:', type: 'text' },
-			  { text: 'TG', type: 'text' },
-			  { text: 'gets', type: 'text' },
-			  { text: 'an', type: 'text' },
-			  { text: 'exclusive', type: 'text' },
-			  { text: 'meeting', type: 'text' },
-			  { text: 'with', type: 'text' },
-			  { text: 'the', type: 'text' },
-			  { text: 'Nissan', type: 'text' },
-			  { text: 'GT-R', type: 'text' },
-			  { text: 'Skyline', type: 'text' },
-			  { text: 'R33', type: 'text' },
-			  { text: 'LM', type: 'text' },
-			  { text: 'http://www.tpgr.me/XJ05d', type: 'url' } ],
+			[{"text":"Meeting","type":"text"},{"text":"a","type":"text"},{"text":"unicorn:","type":"text"},{"text":"TG","type":"text"},{"text":"gets","type":"text"},{"text":"an","type":"text"},{"text":"exclusive","type":"text"},{"text":"meeting","type":"text"},{"text":"with","type":"text"},{"text":"the","type":"text"},{"text":"Nissan","type":"text"},{"text":"GT-R","type":"text"},{"text":"Skyline","type":"text"},{"text":"R33","type":"text"},{"text":"LM","type":"text"},{"text":"http://www.tpgr.me/XJ05d","type":"url","entity":"http://www.tpgr.me/XJ05d"}],
 
 
-			[ { text: 'Deceased', type: 'text' },
-			  { text: 'Bears', type: 'text' },
-			  { text: 'fan', type: 'text' },
-			  { text: 'takes', type: 'text' },
-			  { text: 'one', type: 'text' },
-			  { text: 'final', type: 'text' },
-			  { text: 'shot', type: 'text' },
-			  { text: 'at', type: 'text' },
-			  { text: 'Jay', type: 'text' },
-			  { text: 'Cutler', type: 'text' },
-			  { text: 'in', type: 'text' },
-			  { text: 'obituary', type: 'text' },
-			  { text: 'http://wapo.st/1PoWKsz', type: 'url' } ],
+			[{"text":"Deceased","type":"text"},{"text":"Bears","type":"text"},{"text":"fan","type":"text"},{"text":"takes","type":"text"},{"text":"one","type":"text"},{"text":"final","type":"text"},{"text":"shot","type":"text"},{"text":"at","type":"text"},{"text":"Jay","type":"text"},{"text":"Cutler","type":"text"},{"text":"in","type":"text"},{"text":"obituary","type":"text"},{"text":"http://wapo.st/1PoWKsz","type":"url","entity":"http://wapo.st/1PoWKsz"}],
 
 
-			[ { text: 'Pain', type: 'text' },
-			  { text: 'and', type: 'text' },
-			  { text: 'gain', type: 'text' },
-			  { text: 'for', type: 'text' },
-			  { text: 'Chicago', type: 'text' },
-			  { text: 'teachers', type: 'text' },
-			  { text: 'in', type: 'text' },
-			  { text: 'possible', type: 'text' },
-			  { text: '4-year', type: 'text' },
-			  { text: 'deal.', type: 'text' },
-			  { text: 'Details:', type: 'text' },
-			  { text: 'http://goo.gl/VxY9yx', type: 'url' } ],
+			[{"text":"Pain","type":"text"},{"text":"and","type":"text"},{"text":"gain","type":"text"},{"text":"for","type":"text"},{"text":"Chicago","type":"text"},{"text":"teachers","type":"text"},{"text":"in","type":"text"},{"text":"possible","type":"text"},{"text":"4-year","type":"text"},{"text":"deal.","type":"text"},{"text":"Details:","type":"text"},{"text":"http://goo.gl/VxY9yx","type":"url","entity":"http://goo.gl/VxY9yx"}],
 
 
-			[ { text: '.@NatalieMcGarry', type: 'mention' },
-			  { text: 'You', type: 'text' },
-			  { text: 'don\'t', type: 'text' },
-			  { text: 'appear', type: 'text' },
-			  { text: 'to', type: 'text' },
-			  { text: 'understand', type: 'text' },
-			  { text: 'how', type: 'text' },
-			  { text: 'Twitter', type: 'text' },
-			  { text: 'or', type: 'text' },
-			  { text: 'defamation', type: 'text' },
-			  { text: 'works.', type: 'text' },
-			  { text: 'I\'m', type: 'text' },
-			  { text: 'going', type: 'text' },
-			  { text: 'to', type: 'text' },
-			  { text: 'help', type: 'text' },
-			  { text: 'you', type: 'text' },
-			  { text: 'out', type: 'text' },
-			  { text: 'with', type: 'text' },
-			  { text: 'the', type: 'text' },
-			  { text: 'latter.', type: 'text' } ],
+			[{"text":".@NatalieMcGarry","type":"mention","entity":"@NatalieMcGarry"},{"text":"You","type":"text"},{"text":"don't","type":"text"},{"text":"appear","type":"text"},{"text":"to","type":"text"},{"text":"understand","type":"text"},{"text":"how","type":"text"},{"text":"Twitter","type":"text"},{"text":"or","type":"text"},{"text":"defamation","type":"text"},{"text":"works.","type":"text"},{"text":"I'm","type":"text"},{"text":"going","type":"text"},{"text":"to","type":"text"},{"text":"help","type":"text"},{"text":"you","type":"text"},{"text":"out","type":"text"},{"text":"with","type":"text"},{"text":"the","type":"text"},{"text":"latter.","type":"text"}],
 
 
 			[ { text: '#@saad', type: 'text' },
-			  { text: '@#saad', type: 'topic' },
-			  { text: '.@saad', type: 'mention' },
+			  { text: '@#saad', type: 'topic', "entity":"#saad" },
+			  { text: '.@saad', type: 'mention', "entity":"@saad" },
 			  { text: '@http://google.com', type: 'text' },
 			  { text: '#http://google.com', type: 'text' } ]				
 		];

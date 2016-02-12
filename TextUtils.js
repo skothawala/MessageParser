@@ -54,9 +54,13 @@ var TextUtils = {
 		if(!validTopic)
 			return [false, null];
 
+		text = text.substr(text.indexOf('#'), text.length);
+
 		var regMatch = text.match(/.?#([a-zA-Z0-9-_]*)/gi);
 
 		var lastMatch = regMatch[regMatch.length - 1];
+
+		console.log(regMatch);
 		if(
 			lastMatch.length > 1 
 			&& !TextUtils.isMention(lastMatch)[0]
@@ -134,27 +138,47 @@ var TextUtils = {
 	 * @param tweet -> the tweet
 	 * @return -> array
 	 * Example:
-	 *	processTweet('@saad hello @john, visit http://google.com #awesome') -> 
-	 *		[{text: '@saad', type: 'mention'}, 
+	 *	processTweet('.@saad hello @john, visit http://google.com #awesome') -> 
+	 *		[{text: '.@saad', type: 'mention', entity: "@saad"}, 
 	 		{text: 'hello', type: 'text'}, 
-	 		{text: '@john', type: 'mention'}, 
+	 		{text: '@john', type: 'mention', entity: "@john"}, 
 	 		{text: 'visit', type: 'text'}, 
-	 		{text: 'http://google.com', type: 'url'},	 		
-	 		{text: '#awesome', type: 'mention'}];
+	 		{text: 'http://google.com', type: 'url', entity: "http://google.com"},	 		
+	 		{text: '#awesome', type: 'topic', entity: #awesome}];
 	**/
 	processTweet: function (tweet){
 		var toReturn = [];
 
 		var components = TextUtils.getIndividualComponents(tweet);
 		for (var i = 0; i < components.length; i++) {
+			var isMention = TextUtils.isMention(components[i]);
+			var isTopic = false;
+			var isUrl = false;
+			if(isMention[0]){
+				toReturn.push({text: components[i], type: 'mention', entity: isMention[1]});
+			}else{
+				var isTopic = TextUtils.isTopic(components[i]);
+				if(isTopic[0]){
+					toReturn.push({text: components[i], type: 'topic', entity: isTopic[1]});
+				}else{
+					isUrl = TextUtils.isUrl(components[i])
+					if(isUrl[0]){
+						toReturn.push({text: components[i], type: 'url', entity: isUrl[1] });						
+					}else{
+						toReturn.push({text: components[i], type: 'text'});						
+					}
+				}
+			}
+
+/*
 			if(TextUtils.isMention(components[i])[0])
-				toReturn.push({text: components[i], type: 'mention'});
+				toReturn.push({text: components[i], type: 'mention', entity: });
 			else if(TextUtils.isTopic(components[i])[0])
-				toReturn.push({text: components[i], type: 'topic'});
+				toReturn.push({text: components[i], type: 'topic', entity: });
 			else if(TextUtils.isUrl(components[i])[0])
-				toReturn.push({text: components[i], type: 'url'});
+				toReturn.push({text: components[i], type: 'url', entity: });
 			else
-				toReturn.push({text: components[i], type: 'text'});
+				toReturn.push({text: components[i], type: 'text'});*/
 		};
 
 		return toReturn;

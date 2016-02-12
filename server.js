@@ -31,11 +31,11 @@ handleSuccess = function (allInput, processedTweets, res){
 		for (var j = 0; j < processedTweets[i].length; j++) {
 			switch(processedTweets[i][j].type){
 				case 'mention':
-					mentions += processedTweets[i][j].text + "<br>";break;
+					mentions += processedTweets[i][j].entity + "<br>";break;
 				case 'topic':
-					topics += processedTweets[i][j].text + "<br>";break;
+					topics += processedTweets[i][j].entity + "<br>";break;
 				case 'url':
-					links += processedTweets[i][j].text + "<br>";break;
+					links += processedTweets[i][j].entity + "<br>";break;
 				default:
 					break;
 			}
@@ -97,7 +97,7 @@ requestHandler = function (req, res) {
 
 var port = process.env.PORT || 8080;//for heroku (in future)
 var server = http.createServer(requestHandler);
-//server.listen(port);
+server.listen(port);
 
 console.log('Listening on ' + port);
 
