@@ -20,18 +20,21 @@ var TextUtils = {
 	 * Checks if the input is a url
 	 * 
 	 * @param text -> the url?
-	 * @return -> boolean
+	 * @return -> [boolean, url]
+	 *	return[0] is if the input is a url
+	 *	return[1] contains the actual url
+	 *		Not really needed here bit needs to be consistent with isTopic and isMention
 	 * Example:
 	 *	isUrl('http://www.tpgr.me/XJ05d') -> true;
 	**/
 	isUrl: function(text){
 		if(text.charAt(0) == '@' || text.charAt(0) == '#')
-			return false;
+			return [false, null];
 
 		//regex from Android http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/2.0_r1/android/text/util/Regex.java#Regex.0WEB_URL_PATTERN
 		var match = text.match(/((?:(http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|me|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi);
 		
-		return match != null;
+		return match != null ? [true, text] : [false, null];
 	},
 	/**
 	 * Checks if the input is a topic/hashtag
@@ -46,7 +49,7 @@ var TextUtils = {
 	**/
 	isTopic: function(text){
 
-		var validTopic = text.length > 1 && text.indexOf('#') > -1 && !TextUtils.isUrl(text.substr(1, text.length));
+		var validTopic = text.length > 1 && text.indexOf('#') > -1 && !TextUtils.isUrl(text.substr(1, text.length))[0];
 						
 		if(!validTopic)
 			return [false, null];
@@ -92,7 +95,7 @@ var TextUtils = {
 
 
 		return text.length > 1 && 
-				text.length < 21 && text.charAt(0) == '@' && !TextUtils.isUrl(text.substr(1, text.length))
+				text.length < 21 && text.charAt(0) == '@' && !TextUtils.isUrl(text.substr(1, text.length))[0]
 				&& ( 
 					((text.charCodeAt(1)  >= 65) && (text.charCodeAt(1)  <= 90)) || 
 					((text.charCodeAt(1)  >= 97) && (text.charCodeAt(1)  <= 122)) 

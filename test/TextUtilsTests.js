@@ -65,7 +65,8 @@ describe('TextUtils', function() {
  		for (var i = 0; i < tweets.length; i++) {
 			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
 			for (var j = 0; j < indivComponents.length; j++) {
-		  		assert.equal(TextUtils.isUrl(indivComponents[j]), correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a url');
+				console.log(TextUtils.isTopic(indivComponents[j]));
+		  		assert.equal(TextUtils.isUrl(indivComponents[j])[0], correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[i] + '] element is a url');
 			};
 		};
 
@@ -95,7 +96,6 @@ describe('TextUtils', function() {
  		for (var i = 0; i < tweets.length; i++) {
 			var indivComponents = TextUtils.getIndividualComponents(tweets[i]);
 			for (var j = 0; j < indivComponents.length; j++) {
-				console.log(TextUtils.isTopic(indivComponents[j]));
 		  		assert.equal(TextUtils.isTopic(indivComponents[j])[0], correctAnswers[i][j], 'Tweets[' + i + '][' + indivComponents[j] + '] element is a topc');
 			};
 		};
